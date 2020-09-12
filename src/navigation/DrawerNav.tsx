@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Animated from "react-native-reanimated";
 import { DrawerItem, DrawerContentScrollView } from "@react-navigation/drawer";
@@ -13,100 +13,129 @@ import {
   Switch,
 } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AuthContext } from "./../context/AuthContext";
 
 export function DrawerNav(props) {
   const paperTheme = useTheme();
+
   const translateX = Animated.interpolate(props.progress, {
     inputRange: [0, 0.5, 0.7, 0.8, 1],
     outputRange: [-100, -85, -70, -45, 0],
   });
+
+  const { toggleTheme } = useContext(AuthContext);
   return (
-    <DrawerContentScrollView {...props}>
-      <Animated.View
-        //@ts-ignore
-        style={[
-          styles.drawerContent,
-          {
-            backgroundColor: paperTheme.colors.surface,
-            transform: [{ translateX }],
-          },
-        ]}
-      >
-        <View style={styles.drawerContent}>
-          <View style={styles.userInfoSection}>
-            <TouchableOpacity
-              style={{ marginLeft: 10 }}
-              onPress={() => {
-                props.navigation.toggleDrawer();
-              }}
-            >
-              <MaterialCommunityIcons
-                color={paperTheme.colors.text}
-                name="account-outline"
-                size={50}
-              />
-            </TouchableOpacity>
-            <Title style={styles.title}>Guest</Title>
-            <Caption style={styles.caption}>@</Caption>
-            <View style={styles.row}>
-              <View style={styles.section}>
-                <Paragraph style={[styles.paragraph, styles.caption]}>
-                  --
-                </Paragraph>
-                <Caption style={styles.caption}>Following</Caption>
-              </View>
-              <View style={styles.section}>
-                <Paragraph style={[styles.paragraph, styles.caption]}>
-                  --
-                </Paragraph>
-                <Caption style={styles.caption}>Followers</Caption>
-              </View>
-            </View>
-          </View>
-          <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem
-              icon={({ color, size }) => (
+    <View style={{ flex: 1 }}>
+      <DrawerContentScrollView {...props}>
+        <Animated.View
+          //@ts-ignore
+          style={[
+            styles.drawerContent,
+            {
+              backgroundColor: paperTheme.colors.surface,
+              transform: [{ translateX }],
+            },
+          ]}
+        >
+          <View style={styles.drawerContent}>
+            <View style={styles.userInfoSection}>
+              <TouchableOpacity
+                style={{ marginLeft: 10 }}
+                onPress={() => {
+                  props.navigation.toggleDrawer();
+                }}
+              >
                 <MaterialCommunityIcons
+                  color={paperTheme.colors.text}
                   name="account-outline"
-                  color={color}
-                  size={size}
+                  size={50}
                 />
-              )}
-              label="Profile"
-              onPress={() => {}}
-            />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <MaterialCommunityIcons name="tune" color={color} size={size} />
-              )}
-              label="Preferences"
-              onPress={() => {}}
-            />
-            <DrawerItem
-              icon={({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="bookmark-outline"
-                  color={color}
-                  size={size}
-                />
-              )}
-              label="Bookmarks"
-              onPress={() => {}}
-            />
-          </Drawer.Section>
-          <Drawer.Section title="Preferences">
-            <TouchableRipple onPress={props.toggleTheme}>
-              <View style={styles.preference}>
-                <Text>Dark Theme</Text>
-                <View pointerEvents="none">
-                  <Switch value={paperTheme.dark} />
+              </TouchableOpacity>
+              <Title style={styles.title}>Guest</Title>
+              <Caption style={styles.caption}>@</Caption>
+              <View style={styles.row}>
+                <View style={styles.section}>
+                  <Paragraph style={[styles.paragraph, styles.caption]}>
+                    --
+                  </Paragraph>
+                  <Caption style={styles.caption}>Following</Caption>
+                </View>
+                <View style={styles.section}>
+                  <Paragraph style={[styles.paragraph, styles.caption]}>
+                    --
+                  </Paragraph>
+                  <Caption style={styles.caption}>Followers</Caption>
                 </View>
               </View>
-            </TouchableRipple>
+            </View>
+            <Drawer.Section style={styles.drawerSection}>
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="account-outline"
+                    color={color}
+                    size={size}
+                  />
+                )}
+                label="Profile"
+                onPress={() => {}}
+              />
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="tune"
+                    color={color}
+                    size={size}
+                  />
+                )}
+                label="Preferences"
+                onPress={() => {}}
+              />
+              <DrawerItem
+                icon={({ color, size }) => (
+                  <MaterialCommunityIcons
+                    name="bookmark-outline"
+                    color={color}
+                    size={size}
+                  />
+                )}
+                label="Bookmarks"
+                onPress={() => {}}
+              />
+            </Drawer.Section>
+
+            <Drawer.Section title="Preferences">
+              <TouchableRipple
+                onPress={() => {
+                  toggleTheme();
+                }}
+              >
+                <View style={styles.preference}>
+                  <Text>Dark Theme</Text>
+                  <View pointerEvents="none">
+                    <Switch value={paperTheme.dark} />
+                  </View>
+                </View>
+              </TouchableRipple>
+            </Drawer.Section>
+          </View>
+
+          <Drawer.Section style={styles.bottomDrawerSection}>
+            <DrawerItem
+              icon={({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="logout"
+                  size={size}
+                  color={color}
+                />
+              )}
+              label="Sign Out"
+              onPress={() => {}}
+            />
           </Drawer.Section>
-        </View>
-      </Animated.View>
-    </DrawerContentScrollView>
+        </Animated.View>
+      </DrawerContentScrollView>
+    </View>
   );
 }
 
@@ -148,5 +177,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 16,
+  },
+  bottomDrawerSection: {
+    marginBottom: 15,
+    borderTopColor: "#f4f4f4",
+    borderTopWidth: 1,
   },
 });
