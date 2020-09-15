@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
   TouchableOpacity,
   Image,
   ImageBackground,
+  AsyncStorage,
 } from "react-native";
 import Animated from "react-native-reanimated";
 import { DrawerItem, DrawerContentScrollView } from "@react-navigation/drawer";
@@ -17,10 +18,12 @@ import {
   Text,
   TouchableRipple,
   Switch,
+  ActivityIndicator,
 } from "react-native-paper";
 import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
 import { AuthContext } from "../context/AuthContext";
 import { useTheme as nativeUseTheme } from "@react-navigation/native";
+import { Context as BigContext } from "../context/AuthContext";
 
 export function DrawerContent(props) {
   const paperTheme = useTheme();
@@ -31,7 +34,11 @@ export function DrawerContent(props) {
     outputRange: [-100, -85, -70, -45, 0],
   });
 
-  const { toggleTheme } = useContext(AuthContext);
+  function combinedSignout() {
+    signout();
+    navigation.navigate("Choose");
+  }
+  const { toggleTheme, signout } = useContext(AuthContext);
   return (
     <View style={{ flex: 1 }}>
       <Animated.View
@@ -171,7 +178,7 @@ export function DrawerContent(props) {
               <MaterialCommunityIcons name="logout" size={size} color={color} />
             )}
             label="Sign Out"
-            onPress={() => {}}
+            onPress={() => combinedSignout()}
           />
         </Drawer.Section>
       </Animated.View>

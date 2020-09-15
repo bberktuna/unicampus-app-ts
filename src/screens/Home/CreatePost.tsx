@@ -16,7 +16,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 
 const CreatePost = ({ navigation, route }) => {
-  const { item } = route.params;
+  //const { item } = route.params;
   const [createPlaceMutation] = useCreatePostMutation({
     async onCompleted({ createPost }) {
       navigation.navigate("Posts");
@@ -24,13 +24,13 @@ const CreatePost = ({ navigation, route }) => {
   });
 
   const { colors } = useTheme();
-  const [text, setText] = useState(item.text || "");
+  const [text, setText] = useState("");
 
   return (
     <View style={styles.container}>
       <View style={styles.topFlex}>
         <View style={styles.topLeftFlex}>
-          <TouchableOpacity onPress={navigation.navigate("Posts")}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <MaterialCommunityIcons name="window-close" size={35} />
           </TouchableOpacity>
 

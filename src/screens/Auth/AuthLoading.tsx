@@ -1,12 +1,24 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  AsyncStorage,
+  StatusBar,
+} from "react-native";
 
-const AuthLoading = () => {
-  return (
-    <View>
-      <Text>loading</Text>
-    </View>
-  );
+const AuthLoading = (props) => {
+  useEffect(() => {
+    bootstrapAsync();
+  });
+
+  const bootstrapAsync = async () => {
+    const userToken = await AsyncStorage.getItem("token");
+    props.navigation.replace(userToken ? "DrawerNav" : "Choose");
+  };
+
+  return <ActivityIndicator style={{ ...StyleSheet.absoluteFillObject }} />;
 };
 
 export { AuthLoading };

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { AuthContext } from "./src/context/AuthContext";
 import { ApolloProvider } from "@apollo/client";
 import { apolloClient } from "./src/graphql";
@@ -18,6 +18,7 @@ import {
   DefaultTheme as PaperDefaultTheme,
   DarkTheme as PaperDarkTheme,
 } from "react-native-paper";
+import { ActivityIndicator, AsyncStorage } from "react-native";
 const RootStack = createStackNavigator();
 
 export default function App() {
@@ -27,6 +28,11 @@ export default function App() {
     () => ({
       toggleTheme: () => {
         setIsDarkTheme((isDarkTheme) => !isDarkTheme);
+      },
+      signout: () => {
+        return async () => {
+          await AsyncStorage.removeItem("token");
+        };
       },
     }),
     []
@@ -63,7 +69,7 @@ export default function App() {
       <PaperProvider theme={theme}>
         <AuthContext.Provider value={authContext}>
           <NavigationContainer theme={theme}>
-            <RootStack.Navigator initialRouteName="DrawerNav">
+            <RootStack.Navigator initialRouteName="AuthLoading">
               <RootStack.Screen
                 name="AuthLoading"
                 component={AuthLoading}
