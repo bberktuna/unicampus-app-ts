@@ -1,14 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const Login = () => {
+const AuthLoading = () => {
   return (
     <View>
-      <Text>LOGIN</Text>
+      <Text>loading</Text>
     </View>
   );
 };
 
-export { Login };
+export { AuthLoading };
 
 const styles = StyleSheet.create({});

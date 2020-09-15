@@ -2,16 +2,16 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { FAB } from "react-native-paper";
 import { useTheme } from "@react-navigation/native";
+import { CustomFAB } from "../../components";
 
-const Notifications = () => {
+const Notifications = ({ navigation }) => {
   const { colors } = useTheme();
   return (
     <View style={{ flex: 1 }}>
       <Text>NOTIFICATION SCREEN</Text>
-      <FAB
-        style={[styles.fab, { backgroundColor: colors.text }]}
-        icon="plus"
-        onPress={() => console.log("CreatePost")}
+      <CustomFAB
+        iconFAB="feather"
+        onPressFAB={() => navigation.navigate("CreatePost")}
       />
     </View>
   );

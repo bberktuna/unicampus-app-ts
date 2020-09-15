@@ -2,6 +2,7 @@ import React from "react";
 import { TouchableOpacity, StyleSheet, Image } from "react-native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Text } from "react-native-paper";
 import {
   Ionicons,
   Entypo,
@@ -23,7 +24,6 @@ import {
   CreatePost,
   CreateMessage,
 } from "../screens";
-import { color } from "react-native-reanimated";
 
 const Bottom = createMaterialBottomTabNavigator();
 
@@ -39,7 +39,8 @@ function BottomNav() {
       <Bottom.Navigator
         labeled={false}
         screenOptions={{ tabBarColor: colors.background }}
-        barStyle={{ borderTopWidth: 0.5, borderColor: colors.text }}
+        barStyle={{ borderTopWidth: 0.3, borderColor: "#333333" }}
+        // MIGHT NEED TO CHANGE IT WITH DYNAMIC COLOR
       >
         <Bottom.Screen
           name="_FeedStack"
@@ -100,8 +101,8 @@ function BottomNav() {
               <Image
                 source={
                   focused
-                    ? require("../../assets/icons/message.png")
-                    : require("../../assets/icons/message-outline.png")
+                    ? require("../../assets/icons/doublechat.png")
+                    : require("../../assets/icons/doublechat-outline.png")
                 }
                 style={[styles.bottomTabIcon, { tintColor: colors.text }]}
               />
@@ -129,12 +130,7 @@ const headerOptions = ({ navigation }: any) => ({
     <TouchableOpacity
       onPress={() => {}} //navigation.navigate("Profile")
     >
-      <Feather
-        name="settings"
-        size={30}
-        color="black"
-        style={styles.headerRightAvatar}
-      />
+      <Feather name="settings" size={30} style={styles.headerRightAvatar} />
     </TouchableOpacity>
   ),
 });
@@ -144,8 +140,41 @@ const SearchStack = createStackNavigator();
 const NotificationsStack = createStackNavigator();
 const MessagesStack = createStackNavigator();
 
-const _FeedStack = () => {
+const _FeedStack = ({ navigation }) => {
   const { colors } = useTheme();
+  const headerOptions = ({ navigation }: any) => ({
+    //headerTintColor: colors.text,
+    //headerStyle: { backgroundColor: colors.background },
+
+    headerLeft: () => (
+      <TouchableOpacity
+        onPress={() => navigation.openDrawer()}
+        style={{ marginLeft: 10 }}
+      >
+        <Image
+          style={{
+            width: 42,
+            height: 42,
+            borderRadius: 42 / 2,
+            borderColor: colors.text,
+          }}
+          source={require("../../assets/brian.jpg")}
+        />
+      </TouchableOpacity>
+    ),
+    headerRight: () => (
+      <TouchableOpacity
+        onPress={() => {}} //navigation.navigate("Profile")
+      >
+        <Feather
+          name="settings"
+          size={30}
+          color={colors.text}
+          style={styles.headerRightAvatar}
+        />
+      </TouchableOpacity>
+    ),
+  });
   return (
     <PostsStack.Navigator
       initialRouteName="Posts"
@@ -164,12 +193,16 @@ const _FeedStack = () => {
         options={headerOptions}
       />
       <PostsStack.Screen name="PostDetail" component={PostDetail} />
-      <PostsStack.Screen name="CreatePost" component={CreatePost} />
+      <PostsStack.Screen
+        name="CreatePost"
+        component={CreatePost}
+        options={{ headerShown: false }}
+      />
     </PostsStack.Navigator>
   );
 };
 
-const _SearchStack = () => {
+const _SearchStack = ({ navigation }) => {
   const { colors } = useTheme();
   return (
     <SearchStack.Navigator
@@ -188,11 +221,16 @@ const _SearchStack = () => {
         component={Search}
         options={headerOptions}
       />
+      <SearchStack.Screen
+        name="CreatePost"
+        component={CreatePost}
+        options={{ headerShown: false }}
+      />
     </SearchStack.Navigator>
   );
 };
 
-const _NotificationsStack = () => {
+const _NotificationsStack = ({ navigation }) => {
   const { colors } = useTheme();
   return (
     <NotificationsStack.Navigator
@@ -211,12 +249,16 @@ const _NotificationsStack = () => {
         component={Notifications}
         options={headerOptions}
       />
-      <NotificationsStack.Screen name="CreatePost" component={CreatePost} />
+      <NotificationsStack.Screen
+        name="CreatePost"
+        component={CreatePost}
+        options={{ headerShown: false }}
+      />
     </NotificationsStack.Navigator>
   );
 };
 
-const _MessagesStack = () => {
+const _MessagesStack = ({ navigation }) => {
   const { colors } = useTheme();
   return (
     <MessagesStack.Navigator
@@ -235,7 +277,6 @@ const _MessagesStack = () => {
         component={Messages}
         options={headerOptions}
       />
-      <MessagesStack.Screen name="CreateMessage" component={CreateMessage} />
     </MessagesStack.Navigator>
   );
 };

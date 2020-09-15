@@ -4,19 +4,22 @@ import { PostList } from "./components";
 import { useTheme } from "@react-navigation/native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { FAB } from "react-native-paper";
+import { usePostsQuery } from "../../graphql";
+import { CustomFAB } from "../../components";
 
 interface Props {
   navigation: any;
 }
-const DenemePosts = [{}];
 
 const Posts: React.FC<Props> = ({ navigation }) => {
   const { colors } = useTheme();
+  const { data, refetch } = usePostsQuery();
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={DenemePosts} // data will kkommm from usequeries codegen xDXD
-        keyExtractor={(item) => `${item}`}
+        data={data && data.posts ? data.posts : []} // data will kkommm from usequeries codegen xDXD
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <PostList
             {...(item as any)}
@@ -24,10 +27,9 @@ const Posts: React.FC<Props> = ({ navigation }) => {
           />
         )}
       />
-      <FAB
-        style={[styles.fab, { backgroundColor: colors.text }]}
-        icon="plus"
-        onPress={() => console.log("CreatePost")}
+      <CustomFAB
+        iconFAB="feather"
+        onPressFAB={() => navigation.navigate("CreatePost", { item: {} })}
       />
     </View>
   );

@@ -2,16 +2,18 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { FAB } from "react-native-paper";
 import { useTheme } from "@react-navigation/native";
-const Messages = () => {
+import { CustomFAB } from "../../components";
+
+const Messages = ({ navigation }) => {
   const { colors } = useTheme();
 
   return (
     <View style={{ flex: 1 }}>
       <Text>MESSAGES SCREEN</Text>
-      <FAB
-        style={[styles.fab, { backgroundColor: colors.text }]}
-        icon="plus"
-        onPress={() => console.log("CreatePost")}
+      <CustomFAB
+        iconFAB="plus"
+        onPressFAB={() => console.log("GOING TO CREATEMESSAGE SCREEN ")}
+        // navigation.navigate("CreateMessage")
       />
     </View>
   );
