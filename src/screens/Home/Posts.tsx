@@ -9,16 +9,18 @@ import { CustomFAB } from "../../components";
 
 interface Props {
   navigation: any;
+  route: any;
 }
 
-const Posts: React.FC<Props> = ({ navigation }) => {
+const Posts: React.FC<Props> = ({ navigation, route }) => {
+  const { params } = route;
   const { colors } = useTheme();
   const { data, refetch } = usePostsQuery();
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={data && data.posts ? data.posts : []} // data will kkommm from usequeries codegen xDXD
+        data={data && data.posts ? data.posts : []}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <PostList
@@ -29,7 +31,7 @@ const Posts: React.FC<Props> = ({ navigation }) => {
       />
       <CustomFAB
         iconFAB="feather"
-        onPressFAB={() => navigation.navigate("CreatePost", { item: {} })}
+        onPressFAB={() => navigation.navigate("CreatePost")}
       />
     </View>
   );

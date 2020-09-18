@@ -9,17 +9,16 @@ import {
   Image,
 } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { useCreatePostMutation } from "../../graphql";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useCreatePostMutation } from "./../../graphql/graphql-generated";
 
 const { width, height } = Dimensions.get("window");
 
 const CreatePost = ({ navigation, route }) => {
-  //const { item } = route.params;
-  const [createPlaceMutation] = useCreatePostMutation({
+  const [createPost] = useCreatePostMutation({
     async onCompleted({ createPost }) {
-      navigation.navigate("Posts");
+      navigation.goBack();
     },
   });
 
@@ -64,11 +63,13 @@ const CreatePost = ({ navigation, route }) => {
             alignItems: "center",
             margin: 20,
           }}
-          onPress={() =>
-            createPlaceMutation({
-              variables: { text }, // FUTUERS ON THE WAY -- PICTURES
-            })
-          }
+          onPress={() => {
+            createPost({
+              variables: {
+                text,
+              },
+            });
+          }}
         >
           <Text style={{ fontSize: 18 }}>Share</Text>
         </TouchableOpacity>

@@ -1,14 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const Logout = () => {
+const ProfilePosts = () => {
   return (
     <View>
-      <Text>Logout SCREEN</Text>
+      <Text></Text>
     </View>
   );
 };
 
-export { Logout };
+export { ProfilePosts };
 
 const styles = StyleSheet.create({});

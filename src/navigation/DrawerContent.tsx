@@ -20,7 +20,11 @@ import {
   Switch,
   ActivityIndicator,
 } from "react-native-paper";
-import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
+import {
+  MaterialCommunityIcons,
+  FontAwesome,
+  Feather,
+} from "@expo/vector-icons";
 import { AuthContext } from "../context/AuthContext";
 import { useTheme as nativeUseTheme } from "@react-navigation/native";
 import { Context as BigContext } from "../context/AuthContext";
@@ -109,45 +113,22 @@ export function DrawerContent(props) {
             <Drawer.Section style={styles.drawerSection}>
               <DrawerItem
                 icon={({ color, size }) => (
-                  <MaterialCommunityIcons
-                    name="account-outline"
-                    color={color}
-                    size={size}
-                  />
+                  <Feather name="user" color={color} size={size} />
                 )}
                 label="Profile"
-                onPress={() => {}}
+                onPress={() => navigation.navigate("ProfileStack")}
               />
               <DrawerItem
                 icon={({ color, size }) => (
-                  <MaterialCommunityIcons
-                    name="tune"
-                    color={color}
-                    size={size}
-                  />
-                )}
-                label="Preferences"
-                onPress={() => {}}
-              />
-              <DrawerItem
-                icon={({ color, size }) => (
-                  <MaterialCommunityIcons
-                    name="bookmark-outline"
-                    color={color}
-                    size={size}
-                  />
+                  <Feather name="bookmark" color={color} size={size} />
                 )}
                 label="Bookmarks"
-                onPress={() => {}}
+                onPress={() => navigation.navigate("Bookmarks")}
               />
 
               <DrawerItem
                 icon={({ color, size }) => (
-                  <MaterialCommunityIcons
-                    name="moon-new"
-                    size={size}
-                    color={color}
-                  />
+                  <Feather name="moon" size={size} color={color} />
                 )}
                 label="Theme"
                 onPress={() => {
